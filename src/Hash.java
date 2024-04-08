@@ -92,13 +92,24 @@ public class Hash implements AM {
 
     public void run(AMInfo info) {
         System.err.println("Getting part from parent...");
-        int N = (int) info.parent.readObject();
+        int N1 = (int) info.parent.readObject();
         double x1 = (double) info.parent.readObject();
         double x2 = (double) info.parent.readObject();
         double y1 = (double) info.parent.readObject();
         double y2 = (double) info.parent.readObject();
 
-        int num = mymap(N, x1, x2, y1, y2);
+        Random random = new Random();
+        int num = 0;
+        for (int i = 0; i < N1; i++) {
+            double x = random.nextDouble() * (x2 - x1) + x1;
+            double y = random.nextDouble() * (y2 - y1) + y1;
+            double fun = foo(x);
+            if (0 <= y && y <= fun) {
+                num += 1;
+            } else if (0 >= y && y >= fun) {
+                num -= 1;
+            }
+        }
 
         info.parent.write(num);
     }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.math.BigInteger;
+import java.util.Random;
 
 public class MonteCarlo implements AM {
     private static long startTime = 0;

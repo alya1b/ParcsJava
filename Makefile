@@ -11,5 +11,5 @@ out/Hash.jar: out/parcs.jar src/MonteCarlo.java
 
 build: out/MonteCarlo.jar
 
-run: out/Hash.jar
+run: out/MonteCarlo.jar
 	@cd out && java -cp 'parcs.jar:MonteCarlo.jar' MonteCarlo $(WORKERS)

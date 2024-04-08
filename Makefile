@@ -3,7 +3,7 @@ all: run
 clean:
 	rm -f out/MonteCarlo.jar
 
-out/Hash.jar: out/parcs.jar src/MonteCarlo.java
+out/MonteCarlo.jar: out/parcs.jar src/MonteCarlo.java
 	@mkdir -p temp
 	@javac -cp out/parcs.jar -d temp src/MonteCarlo.java
 	@jar cf out/MonteCarlo.jar -C temp .

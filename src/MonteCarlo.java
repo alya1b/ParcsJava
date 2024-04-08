@@ -47,18 +47,21 @@ public class MonteCarlo implements AM {
         System.err.println("Forwarding parts to workers...");
         startTime = System.nanoTime();
         channel[] channels = new channel[n];
+        int remainder = N % n;
+        int chunkSize = N / n;
         for (int i = 0; i < n; i++) {
+            int size = chunkSize + ((i < remainder) ? 1 : 0);
             point p = info.createPoint();
             channel c = p.createChannel();
             p.execute("MonteCarlo");
-            c.write(N);
+            c.write(size);
             c.write(x1);
             c.write(x2);
             c.write(y1);
             c.write(y2);
             channels[i] = c;
         }
-
+    
         System.err.println("Getting results");
 
         int result = 0;

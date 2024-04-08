@@ -44,6 +44,12 @@ public class MonteCarlo implements AM {
         double y1 = Double.parseDouble(inputs[3]);
         double y2 = Double.parseDouble(inputs[4]);
 
+        System.err.println("N: " + N);
+        System.err.println("x1: " + x1);
+        System.err.println("x2: " + x2);
+        System.err.println("y1: " + y1);
+        System.err.println("y2: " + y2);
+
         System.err.println("Forwarding parts to workers...");
         startTime = System.nanoTime();
         channel[] channels = new channel[n];

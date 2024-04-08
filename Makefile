@@ -1,15 +1,15 @@
 all: run
 
 clean:
-	rm -f out/Hash.jar
+	rm -f out/MonteCarlo.jar
 
-out/Hash.jar: out/parcs.jar src/Hash.java
+out/Hash.jar: out/parcs.jar src/MonteCarlo.java
 	@mkdir -p temp
-	@javac -cp out/parcs.jar -d temp src/Hash.java
-	@jar cf out/Hash.jar -C temp .
+	@javac -cp out/parcs.jar -d temp src/MonteCarlo.java
+	@jar cf out/MonteCarlo.jar -C temp .
 	@rm -rf temp/
 
-build: out/Hash.jar
+build: out/MonteCarlo.jar
 
 run: out/Hash.jar
-	@cd out && java -cp 'parcs.jar:Hash.jar' Hash $(WORKERS)
+	@cd out && java -cp 'parcs.jar:MonteCarlo.jar' MonteCarlo $(WORKERS)

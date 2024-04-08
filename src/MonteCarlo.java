@@ -91,6 +91,7 @@ public class MonteCarlo implements AM {
     }
 
     public void run(AMInfo info) {
+        System.err.println("Getting part from parent...");
         int N = (int) info.parent.readObject();
         double x1 = (double) info.parent.readObject();
         double x2 = (double) info.parent.readObject();

@@ -104,19 +104,19 @@ public class MonteCarlo implements AM {
         	nums[i] = (BigInteger) channels[i].readObject();
         }
 
-        System.err.println("Calculation of the result");
-	BigInteger result = BigInteger.ZERO; // Initialize result to 0
+        //System.err.println("Calculation of the result");
+	//BigInteger result = BigInteger.ZERO; // Initialize result to 0
 	for (int i = 0; i < n; i++) {
-	    result = result.add(nums[i]); // Add each BigInteger to the result
+	    //result = result.add(nums[i]); // Add each BigInteger to the result
 	    System.err.println("n[i]:" + nums[i]);
 	}
-	System.err.println("result:" + result);
-	BigInteger integral = result.multiply(BigInteger.valueOf(x2 - x1))
-	                                  .multiply(BigInteger.valueOf(y2 - y1))
-	                                  .divide(BigInteger.valueOf(N)); // Perform arithmetic with BigIntegers
+	//System.err.println("result:" + result);
+	//BigInteger integral = result.multiply(BigInteger.valueOf(x2 - x1))
+	//                                  .multiply(BigInteger.valueOf(y2 - y1))
+	 //                                 .divide(BigInteger.valueOf(N)); // Perform arithmetic with BigIntegers
 	long endTime = System.nanoTime();
 	
-        System.out.println("Result: " + integral);
+        //System.out.println("Result: " + integral);
        
         
         long timeElapsed = endTime - startTime;
@@ -131,7 +131,7 @@ public class MonteCarlo implements AM {
     public void run(AMInfo info) {
      
         String substring = (String)info.parent.readObject();
-        int num = computeHash(substring);
+        BigInteger num = computeHash(substring);
         info.parent.write(num);
   
     }

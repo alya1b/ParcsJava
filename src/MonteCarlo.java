@@ -116,7 +116,7 @@ public class MonteCarlo implements AM {
 	                                  .divide(BigInteger.valueOf(N)); // Perform arithmetic with BigIntegers
 	long endTime = System.nanoTime();
 	
-        System.out.println("Result: " integral);
+        System.out.println("Result: " + integral);
        
         
         long timeElapsed = endTime - startTime;

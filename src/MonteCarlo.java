@@ -24,7 +24,7 @@ public class MonteCarlo implements AM {
         	double y1 = 0.0;
         	double y2 = 2.0;
 		Random random = new Random();
-	        int num = 0;
+	        int num = 1;
 	        for (int i = 0; i < N1; i++) {
 	            double x = random.nextDouble() * (x2 - x1) + x1;
 	            double y = random.nextDouble() * (y2 - y1) + y1;
@@ -108,6 +108,7 @@ public class MonteCarlo implements AM {
 	int result = 0;
 	for (int i = 0; i < n; i++) {
         	result += nums[i];
+		System.err.println("n[i]:" + Integer.toString(nums[i]));
         }
 	System.err.println("result:" + Integer.toString(result));
 	double integral = (double) result * (x2 - x1) * (y2 - y1) / N;

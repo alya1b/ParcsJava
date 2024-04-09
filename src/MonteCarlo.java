@@ -79,8 +79,8 @@ public class MonteCarlo implements AM {
         ArrayList<Integer> sub_hash = new ArrayList<>();
         for (int i = 0; i < n; i++) {
         	ArrayList<Integer> a = (ArrayList<Integer>) channels[i].readObject();
-		sub_hash.add(a.get(0))
-		System.out.println("Result: " + Integer.toString(a.get(0));
+		sub_hash.add(a.get(0));
+		System.out.println("Result: " + Integer.toString(a.get(0)));
         }
 
         System.err.println("Calculation of the result");

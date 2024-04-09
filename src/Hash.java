@@ -60,7 +60,13 @@ public class Hash implements AM {
             point p = info.createPoint();
             channel c = p.createChannel();
             p.execute("Hash");
-            c.write(new double[] {size, x1, x2, y1, y2}); // Write all values in one array
+            ArrayList<Double> params = new ArrayList<>();
+            params.add((double) size);
+            params.add(x1);
+            params.add(x2);
+            params.add(y1);
+            params.add(y2);
+            c.write(params);
             channels[i] = c;
         }
 
@@ -68,7 +74,7 @@ public class Hash implements AM {
 
         int result = 0;
         for (int i = 0; i < n; i++) {
-            result += (int) channels[i].readObject();
+            result += channels[i].readInt();
         }
 
         System.err.println("Calculation of the result");
@@ -88,12 +94,12 @@ public class Hash implements AM {
 
     public void run(AMInfo info) {
         System.err.println("Getting part from parent...");
-        double[] params = (double[]) info.parent.readObject();
-        int N1 = (int) params[0];
-        double x1 = params[1];
-        double x2 = params[2];
-        double y1 = params[3];
-        double y2 = params[4];
+        ArrayList<Double> params = (ArrayList<Double>) info.parent.readObject();
+        int N1 = params.get(0).intValue();
+        double x1 = params.get(1);
+        double x2 = params.get(2);
+        double y1 = params.get(3);
+        double y2 = params.get(4);
 
         Random random = new Random();
         int num = 0;

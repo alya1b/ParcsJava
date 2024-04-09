@@ -7,16 +7,21 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.math.BigInteger;
 import java.util.Random;
+import java.io.*;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.math.BigInteger;
+import parcs.*;
 
 public class MonteCarlo implements AM {
     private static long startTime = 0;
     private static final BigInteger MODULE = new BigInteger("2147483647");
     private static final BigInteger BASE =  new BigInteger("31");
 	 
-	public static ArrayList<Integer> computeHash(String str) {
-	     ArrayList<Integer> a = new ArrayList<>();
-	     a.add(10);
-	     BigInteger hashValue = BigInteger.ZERO;
+	public static BigInteger computeHash(String str) {
+		 BigInteger hashValue = BigInteger.ZERO;
 	     BigInteger powBase = BigInteger.ONE;
 
 	     for (int i = 0; i < str.length(); i++) {
@@ -25,7 +30,7 @@ public class MonteCarlo implements AM {
 	         hashValue = (hashValue.add(charValue.multiply(powBase).mod(MODULE))).mod(MODULE);
 	         powBase = powBase.multiply(BASE).mod(MODULE);
 	        }
-	        return a;
+	        return hashValue;
 	 }
 
 
@@ -76,20 +81,18 @@ public class MonteCarlo implements AM {
 
         System.err.println("Getting results");
       
-        ArrayList<Integer> sub_hash = new ArrayList<>();
+        BigInteger[] sub_hash = new BigInteger[n];
         for (int i = 0; i < n; i++) {
-        	ArrayList<Integer> a = (ArrayList<Integer>) channels[i].readObject();
-		sub_hash.add(a.get(0));
-		System.out.println("Result: " + Integer.toString(a.get(0)));
+        	sub_hash[i] = (BigInteger) channels[i].readObject();
         }
 
         System.err.println("Calculation of the result");
      
-        //BigInteger hash = resultСalculation(sub_hash, sub_len);
+        BigInteger hash = resultСalculation(sub_hash, sub_len);
        
  	long endTime = System.nanoTime();
 	
-        //System.out.println("Result: " + hash.toString());
+        System.out.println("Result: " + hash.toString());
        
         
         long timeElapsed = endTime - startTime;
@@ -104,7 +107,7 @@ public class MonteCarlo implements AM {
     public void run(AMInfo info) {
      
         String substring = (String)info.parent.readObject();
-        ArrayList<Integer> subhash = computeHash(substring);
+        BigInteger subhash = computeHash(substring);
 
         info.parent.write(subhash);
   

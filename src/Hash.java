@@ -67,7 +67,7 @@ public class Hash implements AM {
 		}
             point p = info.createPoint();
             channel c = p.createChannel();
-            p.execute("Hash");
+            p.execute("MonteCarlo");
             c.write(substring);
             channels[i] = c;
         }

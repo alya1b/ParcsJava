@@ -16,8 +16,8 @@ public class MonteCarlo implements AM {
         return 1 / (Math.pow(x, 5) + 1);
         }
 	 
-	public static int computeHash(String str) {
-		
+	public static BigInteger computeHash(String str) {
+		BigInteger zero2 = new BigInteger("1");
 		int N1 = 1000;
        		double x1 = 0.0;
         	double x2 = 2.0;
@@ -35,7 +35,7 @@ public class MonteCarlo implements AM {
 	                num -= 1;
 	            }
 	        }
-	        return 1;
+	        return zero2;
 	 }
 
 
@@ -99,22 +99,24 @@ public class MonteCarlo implements AM {
 
         System.err.println("Getting results");
       
-        int[] nums = new int[n];
+        BigInteger[] nums = new BigInteger[n];
         for (int i = 0; i < n; i++) {
-        	nums[i] = channels[i].readInt();
+        	nums[i] = (BigInteger) channels[i].readObject();
         }
 
         System.err.println("Calculation of the result");
-	int result = 0;
+	BigInteger result = BigInteger.ZERO; // Initialize result to 0
 	for (int i = 0; i < n; i++) {
-        	result += nums[i];
-		System.err.println("n[i]:" + Integer.toString(nums[i]));
-        }
-	System.err.println("result:" + Integer.toString(result));
-	double integral = (double) result * (x2 - x1) * (y2 - y1) / N;
- 	long endTime = System.nanoTime();
+	    result = result.add(nums[i]); // Add each BigInteger to the result
+	    System.err.println("n[i]:" + nums[i]);
+	}
+	System.err.println("result:" + result);
+	BigInteger integral = result.multiply(BigInteger.valueOf(x2 - x1))
+	                                  .multiply(BigInteger.valueOf(y2 - y1))
+	                                  .divide(BigInteger.valueOf(N)); // Perform arithmetic with BigIntegers
+	long endTime = System.nanoTime();
 	
-        System.out.println("Result: " + String.valueOf(integral));
+        System.out.println("Result: " integral);
        
         
         long timeElapsed = endTime - startTime;

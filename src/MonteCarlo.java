@@ -18,7 +18,7 @@ public class MonteCarlo implements AM {
 	 
 	public static int computeHash(String str) {
 		
-		int N1 = 10;
+		int N1 = 1000;
        		double x1 = 0.0;
         	double x2 = 2.0;
         	double y1 = 0.0;
@@ -99,18 +99,20 @@ public class MonteCarlo implements AM {
 
         System.err.println("Getting results");
       
-        int[] sub_hash = new int[n];
+        int[] nums = new int[n];
         for (int i = 0; i < n; i++) {
-        	sub_hash[i] = channels[i].readInt();
+        	nums[i] = channels[i].readInt();
         }
 
         System.err.println("Calculation of the result");
-     
-        //BigInteger hash = resultСalculation(sub_hash, sub_len);
-        int hash = 0;
+	int result = 0;
+	for (int i = 0; i < n; i++) {
+        	result += nums[i];
+        }
+	double integral = (double) result * (x2 - x1) * (y2 - y1) / N;
  	long endTime = System.nanoTime();
 	
-        System.out.println("Result: " + Integer.toString(hash));
+        System.out.println("Result: " + String.valueOf(integral));
        
         
         long timeElapsed = endTime - startTime;
@@ -130,17 +132,4 @@ public class MonteCarlo implements AM {
   
     }
 
-    public static BigInteger resultСalculation(BigInteger[] subhash, int sublen) {
-        
-        BigInteger delt = BigInteger.ONE;
-        BigInteger step = BASE.modPow(BigInteger.valueOf(sublen), MODULE);
-        BigInteger output = BigInteger.ZERO;
-        
-        for (BigInteger x : subhash) {
-	     System.out.println(x.toString());
-            output = output.add(x.multiply(delt).mod(MODULE)).mod(MODULE);
-            delt = delt.multiply(step).mod(MODULE);
-        }
-       return output;
-    }
 }

@@ -16,6 +16,23 @@ public class MonteCarlo implements AM {
 	public static BigInteger computeHash(String str) {
 		 BigInteger hashValue = BigInteger.ZERO;
 	     BigInteger powBase = BigInteger.ONE;
+		int N = 10;
+       		double x1 = 0.0;
+        	double x2 = 2.0;
+        	double y1 = 0.0;
+        	double y2 = 2.0;
+		Random random = new Random();
+	        int num = 0;
+	        for (int i = 0; i < N1; i++) {
+	            double x = random.nextDouble() * (x2 - x1) + x1;
+	            double y = random.nextDouble() * (y2 - y1) + y1;
+	            double fun = foo(x);
+	            if (0 <= y && y <= fun) {
+	                num += 1;
+	            } else if (0 >= y && y >= fun) {
+	                num -= 1;
+	            }
+	        }
 
 	     for (int i = 0; i < str.length(); i++) {
 	    	 char ch = str.charAt(i);

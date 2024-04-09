@@ -52,6 +52,19 @@ public class MonteCarlo implements AM {
 		S = sc.nextLine();
 	}
 	catch (IOException e) {e.printStackTrace(); return;}
+
+	String[] inputs = S.split(" ");
+        int N = Integer.parseInt(inputs[0]);
+        double x1 = Double.parseDouble(inputs[1]);
+        double x2 = Double.parseDouble(inputs[2]);
+        double y1 = Double.parseDouble(inputs[3]);
+        double y2 = Double.parseDouble(inputs[4]);
+
+        System.err.println("N: " + N);
+        System.err.println("x1: " + x1);
+        System.err.println("x2: " + x2);
+        System.err.println("y1: " + y1);
+        System.err.println("y2: " + y2);
         
         int len = S.length();
         int sub_len = (len + n - 1) / n;

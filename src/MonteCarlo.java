@@ -107,15 +107,15 @@ public class MonteCarlo implements AM {
 
         System.err.println("Getting results");
       
-        BigInteger[] sub_hash = new BigInteger[n];
+        int[] sub_hash = new int[n];
         for (int i = 0; i < n; i++) {
-        	sub_hash[i] = (BigInteger) channels[i].readObject();
+        	sub_hash[i] = (int) channels[i].readObject();
         }
 
         System.err.println("Calculation of the result");
      
-        BigInteger hash = resultСalculation(sub_hash, sub_len);
-       
+        //BigInteger hash = resultСalculation(sub_hash, sub_len);
+        int hash = 0;
  	long endTime = System.nanoTime();
 	
         System.out.println("Result: " + hash.toString());
@@ -134,8 +134,8 @@ public class MonteCarlo implements AM {
      
         String substring = (String)info.parent.readObject();
         BigInteger subhash = computeHash(substring);
-
-        info.parent.write(subhash);
+	int a = 0;
+        info.parent.write(a);
   
     }
 

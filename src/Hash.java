@@ -8,7 +8,8 @@ import java.util.PriorityQueue;
 import java.math.BigInteger;
 import java.util.Random;
 
-public class MonteCarlo implements AM {
+
+public class Hash implements AM {
     private static long startTime = 0;
     private static final BigInteger MODULE = new BigInteger("2147483647");
     private static final BigInteger BASE =  new BigInteger("31");
@@ -40,7 +41,7 @@ public class MonteCarlo implements AM {
         int n = Integer.parseInt(args[0]);
 
         task curtask = new task();
-        curtask.addJarFile("MonteCarlo.jar");
+        curtask.addJarFile("Hash.jar");
         AMInfo info = new AMInfo(curtask, null);
 
         System.err.println("Reading input...");
@@ -67,7 +68,7 @@ public class MonteCarlo implements AM {
 		}
             point p = info.createPoint();
             channel c = p.createChannel();
-            p.execute("MonteCarlo");
+            p.execute("Hash");
             c.write(substring);
             channels[i] = c;
         }

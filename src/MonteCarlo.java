@@ -16,7 +16,7 @@ public class MonteCarlo implements AM {
 	public static BigInteger computeHash(String str) {
 		 BigInteger hashValue = BigInteger.ZERO;
 	     BigInteger powBase = BigInteger.ONE;
-		int N = 10;
+		int N1 = 10;
        		double x1 = 0.0;
         	double x2 = 2.0;
         	double y1 = 0.0;

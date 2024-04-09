@@ -13,7 +13,9 @@ public class MonteCarlo implements AM {
     private static final BigInteger MODULE = new BigInteger("2147483647");
     private static final BigInteger BASE =  new BigInteger("31");
 	 
-	public static int computeHash(String str) {
+	public static ArrayList<Integer> computeHash(String str) {
+	     ArrayList<Integer> a = new ArrayList<>();
+	     a.add(10);
 	     BigInteger hashValue = BigInteger.ZERO;
 	     BigInteger powBase = BigInteger.ONE;
 
@@ -23,7 +25,7 @@ public class MonteCarlo implements AM {
 	         hashValue = (hashValue.add(charValue.multiply(powBase).mod(MODULE))).mod(MODULE);
 	         powBase = powBase.multiply(BASE).mod(MODULE);
 	        }
-	        return 10;
+	        return a;
 	 }
 
 
@@ -74,10 +76,11 @@ public class MonteCarlo implements AM {
 
         System.err.println("Getting results");
       
-        int[] sub_hash = new int[n];
+        ArrayList<Integer> sub_hash = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-        	sub_hash[i] = channels[i].readInt();
-		System.out.println("Result: " + Integer.toString(sub_hash[i]));
+        	ArrayList<Integer> a = (ArrayList<Integer>) channels[i].readObject();
+		sub_hash.add(a.get(0))
+		System.out.println("Result: " + Integer.toString(a.get(0));
         }
 
         System.err.println("Calculation of the result");
@@ -101,7 +104,7 @@ public class MonteCarlo implements AM {
     public void run(AMInfo info) {
      
         String substring = (String)info.parent.readObject();
-        int subhash = computeHash(substring);
+        ArrayList<Integer> subhash = computeHash(substring);
 
         info.parent.write(subhash);
   

@@ -16,9 +16,8 @@ public class MonteCarlo implements AM {
         return 1 / (Math.pow(x, 5) + 1);
         }
 	 
-	public static BigInteger computeHash(String str) {
-		 BigInteger hashValue = BigInteger.ZERO;
-	     BigInteger powBase = BigInteger.ONE;
+	public static int computeHash(String str) {
+		
 		int N1 = 10;
        		double x1 = 0.0;
         	double x2 = 2.0;
@@ -36,14 +35,7 @@ public class MonteCarlo implements AM {
 	                num -= 1;
 	            }
 	        }
-
-	     for (int i = 0; i < str.length(); i++) {
-	    	 char ch = str.charAt(i);
-	         BigInteger charValue = BigInteger.valueOf(ch - 'a' + 1);
-	         hashValue = (hashValue.add(charValue.multiply(powBase).mod(MODULE))).mod(MODULE);
-	         powBase = powBase.multiply(BASE).mod(MODULE);
-	        }
-	        return hashValue;
+	        return num;
 	 }
 
 
@@ -133,9 +125,8 @@ public class MonteCarlo implements AM {
     public void run(AMInfo info) {
      
         String substring = (String)info.parent.readObject();
-        BigInteger subhash = computeHash(substring);
-	int a = 0;
-        info.parent.write(a);
+        int num = computeHash(substring);
+        info.parent.write(num);
   
     }
 

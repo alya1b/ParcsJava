@@ -3,9 +3,9 @@ all: run
 clean:
 	rm -f out/Hash.jar
 
-out/Hash.jar: out/parcs.jar src/MonteCarlo.java
+out/Hash.jar: out/parcs.jar src/Hash.java
 	@mkdir -p temp
-	@javac -cp out/parcs.jar -d temp src/MonteCarlo.java
+	@javac -cp out/parcs.jar -d temp src/Hash.java
 	@jar cf out/Hash.jar -C temp .
 	@rm -rf temp/
 

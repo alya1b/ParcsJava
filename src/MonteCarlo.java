@@ -35,7 +35,7 @@ public class MonteCarlo implements AM {
 	                num -= 1;
 	            }
 	        }
-	        return num;
+	        return 1;
 	 }
 
 

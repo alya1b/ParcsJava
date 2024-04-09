@@ -118,7 +118,7 @@ public class MonteCarlo implements AM {
         int hash = 0;
  	long endTime = System.nanoTime();
 	
-        System.out.println("Result: " + hash.toString());
+        System.out.println("Result: " + Integer.toString(hash));
        
         
         long timeElapsed = endTime - startTime;

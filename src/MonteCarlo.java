@@ -12,30 +12,18 @@ public class MonteCarlo implements AM {
     private static long startTime = 0;
     private static final BigInteger MODULE = new BigInteger("2147483647");
     private static final BigInteger BASE =  new BigInteger("31");
-	public static double foo(double x) {
-        return 1 / (Math.pow(x, 5) + 1);
-        }
 	 
-	public static BigInteger computeHash(String str) {
-		BigInteger zero2 = new BigInteger("1");
-		int N1 = 1000;
-       		double x1 = 0.0;
-        	double x2 = 2.0;
-        	double y1 = 0.0;
-        	double y2 = 2.0;
-		Random random = new Random();
-	        int num = 1;
-	        for (int i = 0; i < N1; i++) {
-	            double x = random.nextDouble() * (x2 - x1) + x1;
-	            double y = random.nextDouble() * (y2 - y1) + y1;
-	            double fun = foo(x);
-	            if (0 <= y && y <= fun) {
-	                num += 1;
-	            } else if (0 >= y && y >= fun) {
-	                num -= 1;
-	            }
+	public static int computeHash(String str) {
+	     BigInteger hashValue = BigInteger.ZERO;
+	     BigInteger powBase = BigInteger.ONE;
+
+	     for (int i = 0; i < str.length(); i++) {
+	    	 char ch = str.charAt(i);
+	         BigInteger charValue = BigInteger.valueOf(ch - 'a' + 1);
+	         hashValue = (hashValue.add(charValue.multiply(powBase).mod(MODULE))).mod(MODULE);
+	         powBase = powBase.multiply(BASE).mod(MODULE);
 	        }
-	        return zero2;
+	        return 10;
 	 }
 
 
@@ -64,19 +52,6 @@ public class MonteCarlo implements AM {
 		S = sc.nextLine();
 	}
 	catch (IOException e) {e.printStackTrace(); return;}
-
-	String[] inputs = S.split(" ");
-        int N = Integer.parseInt(inputs[0]);
-        double x1 = Double.parseDouble(inputs[1]);
-        double x2 = Double.parseDouble(inputs[2]);
-        double y1 = Double.parseDouble(inputs[3]);
-        double y2 = Double.parseDouble(inputs[4]);
-
-        System.err.println("N: " + N);
-        System.err.println("x1: " + x1);
-        System.err.println("x2: " + x2);
-        System.err.println("y1: " + y1);
-        System.err.println("y2: " + y2);
         
         int len = S.length();
         int sub_len = (len + n - 1) / n;
@@ -99,24 +74,19 @@ public class MonteCarlo implements AM {
 
         System.err.println("Getting results");
       
-        BigInteger[] nums = new BigInteger[n];
+        int[] sub_hash = new int[n];
         for (int i = 0; i < n; i++) {
-        	nums[i] = (BigInteger) channels[i].readObject();
+        	sub_hash[i] = channels[i].readInt();
+		System.out.println("Result: " + Integer.toString(sub_hash[i]));
         }
 
-        //System.err.println("Calculation of the result");
-	//BigInteger result = BigInteger.ZERO; // Initialize result to 0
-	for (int i = 0; i < n; i++) {
-	    //result = result.add(nums[i]); // Add each BigInteger to the result
-	    System.err.println("n[i]:" + nums[i]);
-	}
-	//System.err.println("result:" + result);
-	//BigInteger integral = result.multiply(BigInteger.valueOf(x2 - x1))
-	//                                  .multiply(BigInteger.valueOf(y2 - y1))
-	 //                                 .divide(BigInteger.valueOf(N)); // Perform arithmetic with BigIntegers
-	long endTime = System.nanoTime();
+        System.err.println("Calculation of the result");
+     
+        //BigInteger hash = resultСalculation(sub_hash, sub_len);
+       
+ 	long endTime = System.nanoTime();
 	
-        //System.out.println("Result: " + integral);
+        //System.out.println("Result: " + hash.toString());
        
         
         long timeElapsed = endTime - startTime;
@@ -131,9 +101,23 @@ public class MonteCarlo implements AM {
     public void run(AMInfo info) {
      
         String substring = (String)info.parent.readObject();
-        BigInteger num = computeHash(substring);
-        info.parent.write(num);
+        int subhash = computeHash(substring);
+
+        info.parent.write(subhash);
   
     }
 
+    public static BigInteger resultСalculation(BigInteger[] subhash, int sublen) {
+        
+        BigInteger delt = BigInteger.ONE;
+        BigInteger step = BASE.modPow(BigInteger.valueOf(sublen), MODULE);
+        BigInteger output = BigInteger.ZERO;
+        
+        for (BigInteger x : subhash) {
+	     System.out.println(x.toString());
+            output = output.add(x.multiply(delt).mod(MODULE)).mod(MODULE);
+            delt = delt.multiply(step).mod(MODULE);
+        }
+       return output;
+    }
 }

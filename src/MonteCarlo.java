@@ -109,6 +109,7 @@ public class MonteCarlo implements AM {
 	for (int i = 0; i < n; i++) {
         	result += nums[i];
         }
+	System.err.println("result:" + Integer.toString(result));
 	double integral = (double) result * (x2 - x1) * (y2 - y1) / N;
  	long endTime = System.nanoTime();
 	

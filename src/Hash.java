@@ -11,12 +11,14 @@ import java.util.Random;
 
 public class Hash implements AM {
     private static long startTime = 0;
+    
     private static final BigInteger MODULE = new BigInteger("2147483647");
     private static final BigInteger BASE =  new BigInteger("31");
 	 
 	public static BigInteger computeHash(String str) {
 		 BigInteger hashValue = BigInteger.ZERO;
 	     BigInteger powBase = BigInteger.ONE;
+		BigInteger num1 = new BigInteger("1");
 
 	     for (int i = 0; i < str.length(); i++) {
 	    	 char ch = str.charAt(i);
@@ -24,7 +26,7 @@ public class Hash implements AM {
 	         hashValue = (hashValue.add(charValue.multiply(powBase).mod(MODULE))).mod(MODULE);
 	         powBase = powBase.multiply(BASE).mod(MODULE);
 	        }
-	        return hashValue;
+	        return num1;
 	 }
 
 
@@ -78,6 +80,7 @@ public class Hash implements AM {
         BigInteger[] sub_hash = new BigInteger[n];
         for (int i = 0; i < n; i++) {
         	sub_hash[i] = (BigInteger) channels[i].readObject();
+		System.err.println("n[i]  " + sub_hash[i]);
         }
 
         System.err.println("Calculation of the result");

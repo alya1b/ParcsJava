@@ -109,7 +109,7 @@ public class MonteCarlo implements AM {
       
         int[] sub_hash = new int[n];
         for (int i = 0; i < n; i++) {
-        	sub_hash[i] = (int) channels[i].readObject();
+        	sub_hash[i] = channels[i].readInt();
         }
 
         System.err.println("Calculation of the result");

@@ -2,6 +2,7 @@ all: run
 
 clean:
 	rm -f out/Hash.jar
+	rm -f out/MonteCarlo.jar
 
 out/MonteCarlo.jar: out/parcs.jar src/MonteCarlo.java
 	@mkdir -p temp

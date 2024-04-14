@@ -15,9 +15,14 @@ public class MonteCarlo implements AM {
     private static final BigInteger MODULE = new BigInteger("2147483647");
     private static final BigInteger BASE =  new BigInteger("31");
 	 
-	public static int computeHash(String str) {
-		 
-	        return 10;
+	public static int generate(String str) {
+		String[] inputs = S.split(" ");
+      		  int N = Integer.parseInt(inputs[0]);
+      		  double x1 = Double.parseDouble(inputs[1]);
+     		   double x2 = Double.parseDouble(inputs[2]);
+     		   double y1 = Double.parseDouble(inputs[3]);
+     		   double y2 = Double.parseDouble(inputs[4]);
+	        return N;
 	 }
 
 
@@ -46,6 +51,19 @@ public class MonteCarlo implements AM {
 		S = sc.nextLine();
 	}
 	catch (IOException e) {e.printStackTrace(); return;}
+
+	String[] inputs = S.split(" ");
+        int N = Integer.parseInt(inputs[0]);
+        double x1 = Double.parseDouble(inputs[1]);
+        double x2 = Double.parseDouble(inputs[2]);
+        double y1 = Double.parseDouble(inputs[3]);
+        double y2 = Double.parseDouble(inputs[4]);
+
+        System.err.println("N: " + N);
+        System.err.println("x1: " + x1);
+        System.err.println("x2: " + x2);
+        System.err.println("y1: " + y1);
+        System.err.println("y2: " + y2);
         
         int len = S.length();
         int sub_len = (len + n - 1) / n;
@@ -54,11 +72,7 @@ public class MonteCarlo implements AM {
        startTime = System.nanoTime();
         channel[] channels = new channel[n];
         for (int i = 0; i < n; i++) {
-            String substring = "";
-	    if (i * sub_len < S.length()) {
-		substring = S.substring(i * sub_len, 
-            		Math.min((i * sub_len + sub_len), S.length()));
-		}
+            String substring = S;
             point p = info.createPoint();
             channel c = p.createChannel();
             p.execute("MonteCarlo");
@@ -95,7 +109,7 @@ public class MonteCarlo implements AM {
     public void run(AMInfo info) {
      
         String substring = (String)info.parent.readObject();
-        int subhash = computeHash(substring);
+        int subhash = generate(substring);
 
         info.parent.write(subhash);
   

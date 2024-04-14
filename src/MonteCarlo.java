@@ -15,7 +15,7 @@ public class MonteCarlo implements AM {
     private static final BigInteger MODULE = new BigInteger("2147483647");
     private static final BigInteger BASE =  new BigInteger("31");
 	 
-	public static int generate(String str) {
+	public static int generate(String S) {
 		String[] inputs = S.split(" ");
       		  int N = Integer.parseInt(inputs[0]);
       		  double x1 = Double.parseDouble(inputs[1]);

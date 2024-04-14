@@ -33,7 +33,7 @@ public class MonteCarlo implements AM {
 	                num -= 1;
 	            }
 	        }
-	        return num+1;
+	        return num;
 	 }
 
 
@@ -76,14 +76,18 @@ public class MonteCarlo implements AM {
         System.err.println("y1: " + y1);
         System.err.println("y2: " + y2);
         
-        int len = S.length();
-        int sub_len = (len + n - 1) / n;
+        int iterationsPerWorker = N / n;
+	int remainingIterations = N % n;
 
         System.err.println("Forwarding parts to workers...");
        startTime = System.nanoTime();
         channel[] channels = new channel[n];
         for (int i = 0; i < n; i++) {
-            String substring = S;
+            int iterationsForThisWorker = iterationsPerWorker;
+	    if (i < remainingIterations) {
+	        iterationsForThisWorker++;
+	    }
+    	    String substring = iterationsForThisWorker + " " + x1 + " " + x2 + " " + y1 + " " + y2;
             point p = info.createPoint();
             channel c = p.createChannel();
             p.execute("MonteCarlo");
@@ -93,19 +97,22 @@ public class MonteCarlo implements AM {
 
         System.err.println("Getting results");
       
-        int[] sub_hash = new int[n];
+        int[] nums = new int[n];
         for (int i = 0; i < n; i++) {
-        	sub_hash[i] =  channels[i].readInt();
-		System.err.println("n[i]  " + sub_hash[i]);
+        	nums[i] =  channels[i].readInt();
+		System.err.println("n[i]  " + nums[i]);
         }
 
         System.err.println("Calculation of the result");
-     
-        int hash = 222;
-       
+
+	int result = 0;
+        for (int i = 0; i < n; i++) {
+            result += nums[i];
+        }
+        double integral = (double) result * (x2 - x1) * (y2 - y1) / N;
  	long endTime = System.nanoTime();
 	
-        System.out.println("Result: " + hash);
+        System.out.println("Result: " + integral);
        
         
         long timeElapsed = endTime - startTime;
@@ -120,9 +127,9 @@ public class MonteCarlo implements AM {
     public void run(AMInfo info) {
      
         String substring = (String)info.parent.readObject();
-        int subhash = generate(substring);
+        int num = generate(substring);
 
-        info.parent.write(subhash);
+        info.parent.write(num);
   
     }
 }

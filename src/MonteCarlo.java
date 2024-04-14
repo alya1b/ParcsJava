@@ -11,6 +11,10 @@ import java.util.Random;
 
 public class MonteCarlo implements AM {
     private static long startTime = 0;
+
+    public static double foo(double x) {
+        return 1 / (Math.pow(x, 5) + 1);
+    }
 	
     public static void main(String[] args) throws Exception {
         System.err.println("Preparing...");

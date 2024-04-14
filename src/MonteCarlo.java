@@ -55,23 +55,38 @@ public class MonteCarlo implements AM {
 		S = sc.nextLine();
 	}
 	catch (IOException e) {e.printStackTrace(); return;}
+
+	String[] inputs = S.split(" ");
+        int N = Integer.parseInt(inputs[0]);
+        double x1 = Double.parseDouble(inputs[1]);
+        double x2 = Double.parseDouble(inputs[2]);
+        double y1 = Double.parseDouble(inputs[3]);
+        double y2 = Double.parseDouble(inputs[4]);
+
+        System.err.println("N: " + N);
+        System.err.println("x1: " + x1);
+        System.err.println("x2: " + x2);
+        System.err.println("y1: " + y1);
+        System.err.println("y2: " + y2);
         
         int len = S.length();
         int sub_len = (len + n - 1) / n;
 
-        System.err.println("Forwarding parts to workers...");
-       startTime = System.nanoTime();
+       System.err.println("Forwarding parts to workers...");
+        startTime = System.nanoTime();
         channel[] channels = new channel[n];
+        int remainder = N % n;
+        int chunkSize = N / n;
         for (int i = 0; i < n; i++) {
-            String substring = "";
-	    if (i * sub_len < S.length()) {
-		substring = S.substring(i * sub_len, 
-            		Math.min((i * sub_len + sub_len), S.length()));
-		}
+            int size = chunkSize + ((i < remainder) ? 1 : 0);
             point p = info.createPoint();
             channel c = p.createChannel();
-            p.execute("MonteCarlo");
-            c.write(substring);
+            p.execute("Hash");
+            c.write(size);
+            c.write(x1);
+            c.write(x2);
+            c.write(y1);
+            c.write(y2);
             channels[i] = c;
         }
 
@@ -102,11 +117,26 @@ public class MonteCarlo implements AM {
 
 
     public void run(AMInfo info) {
-     
-        String substring = (String)info.parent.readObject();
-        int subhash = computeHash(substring);
+        int N1 = (int) info.parent.readObject();
+        double x1 = (double) info.parent.readObject();
+        double x2 = (double) info.parent.readObject();
+        double y1 = (double) info.parent.readObject();
+        double y2 = (double) info.parent.readObject();
 
-        info.parent.write(subhash);
+        Random random = new Random();
+        int num = 0;
+        for (int i = 0; i < N1; i++) {
+            double x = random.nextDouble() * (x2 - x1) + x1;
+            double y = random.nextDouble() * (y2 - y1) + y1;
+            double fun = foo(x);
+            if (0 <= y && y <= fun) {
+                num += 1;
+            } else if (0 >= y && y >= fun) {
+                num -= 1;
+            }
+        }
+
+        info.parent.write(num);
   
     }
 

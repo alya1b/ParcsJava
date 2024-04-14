@@ -11,9 +11,8 @@ import java.util.Random;
 
 public class MonteCarlo implements AM {
     private static long startTime = 0;
-    
-    private static final BigInteger MODULE = new BigInteger("2147483647");
-    private static final BigInteger BASE =  new BigInteger("31");
+	public static double foo(double x) {
+        return 1 / (Math.pow(x, 5) + 1);}
 	 
 	public static int generate(String S) {
 		String[] inputs = S.split(" ");
@@ -27,7 +26,7 @@ public class MonteCarlo implements AM {
 	        for (int i = 0; i < N1; i++) {
 	            double x = random.nextDouble() * (x2 - x1) + x1;
 	            double y = random.nextDouble() * (y2 - y1) + y1;
-	            double fun = 5.0;
+	            double fun = foo(x);
 	            if (0 <= y && y <= fun) {
 	                num += 1;
 	            } else if (0 >= y && y >= fun) {

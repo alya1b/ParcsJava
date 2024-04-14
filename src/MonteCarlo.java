@@ -89,7 +89,7 @@ public class MonteCarlo implements AM {
        
  	long endTime = System.nanoTime();
 	
-        System.out.println("Result: " + hash.toString());
+        System.out.println("Result: " + Integer.toString(hash));
        
         
         long timeElapsed = endTime - startTime;
@@ -111,16 +111,7 @@ public class MonteCarlo implements AM {
     }
 
     public static int resultСalculation(int[] subhash, int sublen) {
-        
-        BigInteger delt = BigInteger.ONE;
-        BigInteger step = BASE.modPow(BigInteger.valueOf(sublen), MODULE);
-        BigInteger output = BigInteger.ZERO;
-        
-        for (BigInteger x : subhash) {
-	     System.out.println(x.toString());
-            output = output.add(x.multiply(delt).mod(MODULE)).mod(MODULE);
-            delt = delt.multiply(step).mod(MODULE);
-        }
+       
        return 2;
     }
 }

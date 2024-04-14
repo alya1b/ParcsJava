@@ -15,7 +15,7 @@ public class MonteCarlo implements AM {
     private static final BigInteger MODULE = new BigInteger("2147483647");
     private static final BigInteger BASE =  new BigInteger("31");
 	 
-	public static BigInteger computeHash(String str) {
+	public static int computeHash(String str) {
 		 BigInteger hashValue = BigInteger.ZERO;
 	     BigInteger powBase = BigInteger.ONE;
 		BigInteger num1 = new BigInteger("1");
@@ -26,7 +26,7 @@ public class MonteCarlo implements AM {
 	         hashValue = (hashValue.add(charValue.multiply(powBase).mod(MODULE))).mod(MODULE);
 	         powBase = powBase.multiply(BASE).mod(MODULE);
 	        }
-	        return num1;
+	        return 1;
 	 }
 
 
@@ -77,15 +77,15 @@ public class MonteCarlo implements AM {
 
         System.err.println("Getting results");
       
-        BigInteger[] sub_hash = new BigInteger[n];
+        int[] sub_hash = new int[n];
         for (int i = 0; i < n; i++) {
-        	sub_hash[i] = (BigInteger) channels[i].readObject();
+        	sub_hash[i] =  channels[i].readInt();
 		System.err.println("n[i]  " + sub_hash[i]);
         }
 
         System.err.println("Calculation of the result");
      
-        BigInteger hash = resultСalculation(sub_hash, sub_len);
+        int hash = resultСalculation(sub_hash, sub_len);
        
  	long endTime = System.nanoTime();
 	
@@ -104,13 +104,13 @@ public class MonteCarlo implements AM {
     public void run(AMInfo info) {
      
         String substring = (String)info.parent.readObject();
-        BigInteger subhash = computeHash(substring);
+        int subhash = computeHash(substring);
 
         info.parent.write(subhash);
   
     }
 
-    public static BigInteger resultСalculation(BigInteger[] subhash, int sublen) {
+    public static int resultСalculation(int[] subhash, int sublen) {
         
         BigInteger delt = BigInteger.ONE;
         BigInteger step = BASE.modPow(BigInteger.valueOf(sublen), MODULE);
@@ -121,6 +121,6 @@ public class MonteCarlo implements AM {
             output = output.add(x.multiply(delt).mod(MODULE)).mod(MODULE);
             delt = delt.multiply(step).mod(MODULE);
         }
-       return output;
+       return 2;
     }
 }

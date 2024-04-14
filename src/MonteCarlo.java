@@ -11,12 +11,19 @@ import java.util.Random;
 
 public class MonteCarlo implements AM {
     private static long startTime = 0;
+    
+    private static final BigInteger MODULE = new BigInteger("2147483647");
+    private static final BigInteger BASE =  new BigInteger("31");
+	 
+	public static int computeHash(String str) {
+		 
+	        return 10;
+	 }
 
-    public static double foo(double x) {
-        return 1 / (Math.pow(x, 5) + 1);
-    }
-	
+
     public static void main(String[] args) throws Exception {
+    	
+    	
         System.err.println("Preparing...");
         
         if (args.length != 1) {
@@ -39,57 +46,41 @@ public class MonteCarlo implements AM {
 		S = sc.nextLine();
 	}
 	catch (IOException e) {e.printStackTrace(); return;}
-
-	String[] inputs = S.split(" ");
-        int N = Integer.parseInt(inputs[0]);
-        double x1 = Double.parseDouble(inputs[1]);
-        double x2 = Double.parseDouble(inputs[2]);
-        double y1 = Double.parseDouble(inputs[3]);
-        double y2 = Double.parseDouble(inputs[4]);
-
-        System.err.println("N: " + N);
-        System.err.println("x1: " + x1);
-        System.err.println("x2: " + x2);
-        System.err.println("y1: " + y1);
-        System.err.println("y2: " + y2);
         
         int len = S.length();
         int sub_len = (len + n - 1) / n;
 
-       System.err.println("Forwarding parts to workers...");
-        startTime = System.nanoTime();
+        System.err.println("Forwarding parts to workers...");
+       startTime = System.nanoTime();
         channel[] channels = new channel[n];
-        int remainder = N % n;
-        int chunkSize = N / n;
         for (int i = 0; i < n; i++) {
-            int size = chunkSize + ((i < remainder) ? 1 : 0);
+            String substring = "";
+	    if (i * sub_len < S.length()) {
+		substring = S.substring(i * sub_len, 
+            		Math.min((i * sub_len + sub_len), S.length()));
+		}
             point p = info.createPoint();
             channel c = p.createChannel();
-            p.execute("Hash");
-            c.write(S);
-            //c.write(x1);
-            //c.write(x2);
-            //c.write(y1);
-            //c.write(y2);
+            p.execute("MonteCarlo");
+            c.write(substring);
             channels[i] = c;
         }
 
         System.err.println("Getting results");
       
-        int[] nums = new int[n];
-	int result = 0;
+        int[] sub_hash = new int[n];
         for (int i = 0; i < n; i++) {
-        	nums[i] =  channels[i].readInt();
-		result+=nums[i];
-		System.err.println("n[i]  " + nums[i]);
+        	sub_hash[i] =  channels[i].readInt();
+		System.err.println("n[i]  " + sub_hash[i]);
         }
 
         System.err.println("Calculation of the result");
-	double integral = (double) result * (x2 - x1) * (y2 - y1) / N;
+     
+        int hash = 222;
        
  	long endTime = System.nanoTime();
 	
-        System.out.println("Result: " + integral);
+        System.out.println("Result: " + hash);
        
         
         long timeElapsed = endTime - startTime;
@@ -102,31 +93,11 @@ public class MonteCarlo implements AM {
 
 
     public void run(AMInfo info) {
-        //int N1 = (int) info.parent.readObject();
-        //double x1 = (double) info.parent.readObject();
-        //double x2 = (double) info.parent.readObject();
-        //double y1 = (double) info.parent.readObject();
-        //double y2 = (double) info.parent.readObject();
-	int N1 = 1000;
-        double x1 = 0.0;
-        double x2 = 2.0;
-        double y1 = 0.0;
-        double y2 = 2.0;
+     
+        String substring = (String)info.parent.readObject();
+        int subhash = computeHash(substring);
 
-        Random random = new Random();
-        int num = 0;
-        for (int i = 0; i < N1; i++) {
-            double x = random.nextDouble() * (x2 - x1) + x1;
-            double y = random.nextDouble() * (y2 - y1) + y1;
-            double fun = foo(x);
-            if (0 <= y && y <= fun) {
-                num += 1;
-            } else if (0 >= y && y >= fun) {
-                num -= 1;
-            }
-        }
-
-        info.parent.write(num);
+        info.parent.write(subhash);
   
     }
 }

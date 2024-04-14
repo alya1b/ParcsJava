@@ -66,11 +66,11 @@ public class MonteCarlo implements AM {
             point p = info.createPoint();
             channel c = p.createChannel();
             p.execute("Hash");
-            c.write(size);
-            c.write(x1);
-            c.write(x2);
-            c.write(y1);
-            c.write(y2);
+            c.write(S);
+            //c.write(x1);
+            //c.write(x2);
+            //c.write(y1);
+            //c.write(y2);
             channels[i] = c;
         }
 
@@ -102,11 +102,16 @@ public class MonteCarlo implements AM {
 
 
     public void run(AMInfo info) {
-        int N1 = (int) info.parent.readObject();
-        double x1 = (double) info.parent.readObject();
-        double x2 = (double) info.parent.readObject();
-        double y1 = (double) info.parent.readObject();
-        double y2 = (double) info.parent.readObject();
+        //int N1 = (int) info.parent.readObject();
+        //double x1 = (double) info.parent.readObject();
+        //double x2 = (double) info.parent.readObject();
+        //double y1 = (double) info.parent.readObject();
+        //double y2 = (double) info.parent.readObject();
+	int N1 = 1000;
+        double x1 = 0.0;
+        double x2 = 2.0;
+        double y1 = 0.0;
+        double y2 = 2.0;
 
         Random random = new Random();
         int num = 0;

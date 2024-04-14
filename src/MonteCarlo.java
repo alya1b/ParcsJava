@@ -17,12 +17,24 @@ public class MonteCarlo implements AM {
 	 
 	public static int generate(String S) {
 		String[] inputs = S.split(" ");
-      		  int N = Integer.parseInt(inputs[0]);
+      		  int N1 = Integer.parseInt(inputs[0]);
       		  double x1 = Double.parseDouble(inputs[1]);
      		   double x2 = Double.parseDouble(inputs[2]);
      		   double y1 = Double.parseDouble(inputs[3]);
      		   double y2 = Double.parseDouble(inputs[4]);
-	        return N;
+	        Random random = new Random();
+	        int num = 0;
+	        for (int i = 0; i < N1; i++) {
+	            double x = random.nextDouble() * (x2 - x1) + x1;
+	            double y = random.nextDouble() * (y2 - y1) + y1;
+	            double fun = 5.0;
+	            if (0 <= y && y <= fun) {
+	                num += 1;
+	            } else if (0 >= y && y >= fun) {
+	                num -= 1;
+	            }
+	        }
+	        return num;
 	 }
 
 

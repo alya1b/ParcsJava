@@ -11,28 +11,8 @@ import java.util.Random;
 
 public class MonteCarlo implements AM {
     private static long startTime = 0;
-    
-    private static final BigInteger MODULE = new BigInteger("2147483647");
-    private static final BigInteger BASE =  new BigInteger("31");
-	 
-	public static int computeHash(String str) {
-		 BigInteger hashValue = BigInteger.ZERO;
-	     BigInteger powBase = BigInteger.ONE;
-		BigInteger num1 = new BigInteger("1");
-
-	     for (int i = 0; i < str.length(); i++) {
-	    	 char ch = str.charAt(i);
-	         BigInteger charValue = BigInteger.valueOf(ch - 'a' + 1);
-	         hashValue = (hashValue.add(charValue.multiply(powBase).mod(MODULE))).mod(MODULE);
-	         powBase = powBase.multiply(BASE).mod(MODULE);
-	        }
-	        return 1;
-	 }
-
-
+	
     public static void main(String[] args) throws Exception {
-    	
-    	
         System.err.println("Preparing...");
         
         if (args.length != 1) {
@@ -92,19 +72,20 @@ public class MonteCarlo implements AM {
 
         System.err.println("Getting results");
       
-        int[] sub_hash = new int[n];
+        int[] nums = new int[n];
+	int result = 0;
         for (int i = 0; i < n; i++) {
-        	sub_hash[i] =  channels[i].readInt();
-		System.err.println("n[i]  " + sub_hash[i]);
+        	nums[i] =  channels[i].readInt();
+		result+=nums[i];
+		System.err.println("n[i]  " + nums[i]);
         }
 
         System.err.println("Calculation of the result");
-     
-        int hash = resultСalculation(sub_hash, sub_len);
+	double integral = (double) result * (x2 - x1) * (y2 - y1) / N;
        
  	long endTime = System.nanoTime();
 	
-        System.out.println("Result: " + Integer.toString(hash));
+        System.out.println("Result: " + integral);
        
         
         long timeElapsed = endTime - startTime;
@@ -138,10 +119,5 @@ public class MonteCarlo implements AM {
 
         info.parent.write(num);
   
-    }
-
-    public static int resultСalculation(int[] subhash, int sublen) {
-       
-       return 2;
     }
 }
